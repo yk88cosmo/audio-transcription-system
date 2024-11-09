@@ -1,0 +1,10 @@
+# Ignore Python virtual environment and cache
+*.pyc
+__pycache__
+venv/
+
+# Ignore Node.js dependencies
+node_modules/
+
+# Ignore database files
+*.sqlite
