@@ -26,15 +26,20 @@ def test_health(client):
 def test_post_transcribe(client):
     """Test the /transcribe POST endpoint."""
     # Create a temporary file for testing
-    data = {
-        'file': (open('test_audio.wav', 'rb'), 'test_audio.wav')
-    }
-    response = client.post('/transcribe', data=data, content_type='multipart/form-data')
-    assert response.status_code == 200
-    # Check that the transcription is saved to the database
-    transcription = Transcription.query.first()
-    assert transcription is not None
-    assert transcription.audio_filename == 'test_audio.wav'
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        temp_file.write(b'This is a test audio file content') # Replace with actual audio data if needed
+        temp_file.close()  # Ensure the file is closed before sending in the request
+        data = {
+            'file': (open(temp_file.name, 'rb'), 'test_audio.wav')
+        }
+        response = client.post('/transcribe', data=data, content_type='multipart/form-data')
+        assert response.status_code == 200
+        # Check that the transcription is saved to the database
+        transcription = Transcription.query.first()
+        assert transcription is not None
+        assert transcription.audio_filename == 'test_audio.wav'
+
+        os.remove(temp_file.name)  # Clean up the temporary file after the test
 
 def test_get_transcriptions(client):
     """Test the /transcriptions GET endpoint."""
