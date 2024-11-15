@@ -5,7 +5,7 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Pa88W*r3@localhost:3306/transcription_app'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://username:password@localhost:3306/transcription_app'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
